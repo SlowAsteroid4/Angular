@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-signin',
@@ -15,8 +16,26 @@ export class SigninComponent {
   email: string = '';
   password: string = '';
 
+  constructor(private http: HttpClient) { }
+
   onSubmit() {
-    console.log('Nombres:', this.names);
-    console.log('Contraseña:', this.password);
+    const body = {
+      names: this.names,
+      first_lastname: this.first_lastname,
+      second_lastname: this.second_lastname,
+      age: this.age,
+      address: this.address,
+      email: this.email,
+      password: this.password
+    }
+
+    console.log(body);
+
+    this.http.post('http://localhost:3500/api/account/signIn', body).subscribe((response) => {
+      console.log(response);
+    }, (error) => {
+      // Maneja los errores aquí
+    });
+    
   }
 }
